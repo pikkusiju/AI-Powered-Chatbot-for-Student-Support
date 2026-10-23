@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>AI Quiz Generator</title>
+
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+
+    <style>
+
+        body {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f8fafc
+                );
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                sans-serif;
+        }
+
+
+        .navbar {
+
+            background:
+                #111827;
+        }
+
+
+        .main-container {
+
+            max-width:
+                900px;
+
+            margin:
+                40px auto;
+
+            padding:
+                0 20px;
+        }
+
+
+        .quiz-card {
+
+            background:
+                white;
+
+            border-radius:
+                24px;
+
+            padding:
+                35px;
+
+            box-shadow:
+                0 15px 45px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.10
+                );
+        }
+
+
+        .quiz-header {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                30px;
+        }
+
+
+        .quiz-icon {
+
+            width:
+                70px;
+
+            height:
+                70px;
+
+            border-radius:
+                20px;
+
+            background:
+                #eef2ff;
+
+            color:
+                #4f46e5;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            font-size:
+                34px;
+
+            margin:
+                auto auto 15px;
+        }
+
+
+        .form-label {
+
+            font-weight:
+                600;
+        }
+
+
+        .form-control,
+        .form-select {
+
+            border-radius:
+                12px;
+
+            padding:
+                12px;
+        }
+
+
+        .generate-btn {
+
+            width:
+                100%;
+
+            border:
+                none;
+
+            border-radius:
+                12px;
+
+            padding:
+                14px;
+
+            font-size:
+                17px;
+
+            font-weight:
+                600;
+
+            background:
+                #4f46e5;
+
+            color:
+                white;
+
+            transition:
+                0.2s;
+        }
+
+
+        .generate-btn:hover {
+
+            background:
+                #4338ca;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .question-card {
+
+            background:
+                #f8fafc;
+
+            border:
+                1px solid
+                #e5e7eb;
+
+            border-radius:
+                18px;
+
+            padding:
+                25px;
+
+            margin-bottom:
+                20px;
+        }
+
+
+        .question-number {
+
+            color:
+                #4f46e5;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                10px;
+        }
+
+
+        .option {
+
+            display:
+                block;
+
+            width:
+                100%;
+
+            text-align:
+                left;
+
+            background:
+                white;
+
+            border:
+                2px solid
+                #e5e7eb;
+
+            border-radius:
+                12px;
+
+            padding:
+                14px;
+
+            margin-top:
+                10px;
+
+            cursor:
+                pointer;
+
+            transition:
+                0.2s;
+        }
+
+
+        .option:hover {
+
+            border-color:
+                #818cf8;
+
+            background:
+                #eef2ff;
+        }
+
+
+        .option.selected {
+
+            border-color:
+                #4f46e5;
+
+            background:
+                #eef2ff;
+        }
+
+
+        .score-card {
+
+            text-align:
+                center;
+
+            padding:
+                35px;
+        }
+
+
+        .score-circle {
+
+            width:
+                130px;
+
+            height:
+                130px;
+
+            border-radius:
+                50%;
+
+            background:
+                #eef2ff;
+
+            color:
+                #4f46e5;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            font-size:
+                34px;
+
+            font-weight:
+                700;
+
+            margin:
+                20px auto;
+        }
+
+
+        .hidden {
+
+            display:
+                none;
+        }
+
+
+        .loading {
+
+            text-align:
+                center;
+
+            padding:
+                30px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar navbar-dark">
+
+    <div class="container">
+
+        <a
+            href="/dashboard"
+            class="navbar-brand fw-bold"
+        >
+
+            🎓 AI Student Support
+
+        </a>
+
+
+        <a
+            href="/dashboard"
+            class="btn btn-light btn-sm"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ======================================================
+     MAIN
+====================================================== -->
+
+<div class="main-container">
+
+
+    <!-- ==================================================
+         SETUP
+    ================================================== -->
+
+    <div
+        id="setupSection"
+        class="quiz-card"
+    >
+
+
+        <div class="quiz-header">
+
+            <div class="quiz-icon">
+
+                <i class="bi bi-lightbulb-fill"></i>
+
+            </div>
+
+
+            <h2 class="fw-bold">
+
+                AI Quiz Generator
+
+            </h2>
+
+
+            <p class="text-muted">
+
+                Generate a personalized quiz
+                using AI.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="row g-4">
+
+
+            <!-- Subject -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Subject
+
+                </label>
+
+
+                <select
+                    id="subject"
+                    class="form-select"
+                >
+
+                    <option value="">
+
+                        Select Subject
+
+                    </option>
+
+                    <option value="Python">
+
+                        Python
+
+                    </option>
+
+                    <option value="DBMS">
+
+                        DBMS
+
+                    </option>
+
+                    <option value="Software Engineering">
+
+                        Software Engineering
+
+                    </option>
+
+                    <option value="Computer Networks">
+
+                        Computer Networks
+
+                    </option>
+
+                    <option value="Operating System">
+
+                        Operating System
+
+                    </option>
+
+                    <option value="Data Structures">
+
+                        Data Structures
+
+                    </option>
+
+                    <option value="Artificial Intelligence">
+
+                        Artificial Intelligence
+
+                    </option>
+
+                    <option value="Other">
+
+                        Other
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Difficulty -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    Difficulty
+
+                </label>
+
+
+                <select
+                    id="difficulty"
+                    class="form-select"
+                >
+
+                    <option value="Easy">
+
+                        Easy
+
+                    </option>
+
+                    <option
+                        value="Medium"
+                        selected
+                    >
+
+                        Medium
+
+                    </option>
+
+                    <option value="Hard">
+
+                        Hard
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Topic -->
+
+            <div class="col-md-8">
+
+                <label class="form-label">
+
+                    Topic
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="topic"
+                    class="form-control"
+                    placeholder="Example: loops"
+                >
+
+            </div>
+
+
+
+            <!-- Questions -->
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+
+                    Questions
+
+                </label>
+
+
+                <select
+                    id="numQuestions"
+                    class="form-select"
+                >
+
+                    <option value="3">
+
+                        3
+
+                    </option>
+
+                    <option
+                        value="5"
+                        selected
+                    >
+
+                        5
+
+                    </option>
+
+                    <option value="7">
+
+                        7
+
+                    </option>
+
+                    <option value="10">
+
+                        10
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            id="errorBox"
+            class="alert alert-danger mt-4 hidden"
+        ></div>
+
+
+        <button
+            id="generateBtn"
+            class="generate-btn mt-4"
+            onclick="generateQuiz()"
+        >
+
+            <i class="bi bi-stars"></i>
+
+            Generate AI Quiz
+
+        </button>
+
+
+        <div
+            id="loading"
+            class="loading hidden"
+        >
+
+            <div
+                class="spinner-border text-primary"
+            ></div>
+
+
+            <p class="mt-3 mb-0">
+
+                AI is creating your quiz...
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         QUIZ
+    ================================================== -->
+
+    <div
+        id="quizSection"
+        class="hidden"
+    >
+
+        <div class="quiz-card">
+
+
+            <div
+                class="d-flex justify-content-between
+                       align-items-center mb-4"
+            >
+
+                <div>
+
+                    <h4 class="fw-bold mb-1">
+
+                        🧠 AI Quiz
+
+                    </h4>
+
+                    <span
+                        id="progressText"
+                        class="text-muted"
+                    >
+
+                        Question 1
+
+                    </span>
+
+                </div>
+
+
+                <span
+                    id="scoreLive"
+                    class="badge text-bg-primary"
+                >
+
+                    Score: 0
+
+                </span>
+
+            </div>
+
+
+            <div id="questionsContainer"></div>
+
+
+            <button
+                id="nextBtn"
+                class="generate-btn"
+                onclick="nextQuestion()"
+            >
+
+                Next Question
+
+                <i class="bi bi-arrow-right"></i>
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         RESULT
+    ================================================== -->
+
+    <div
+        id="resultSection"
+        class="quiz-card score-card hidden"
+    >
+
+
+        <div class="quiz-icon">
+
+            🏆
+
+        </div>
+
+
+        <h2 class="fw-bold">
+
+            Quiz Completed!
+
+        </h2>
+
+
+        <div
+            id="finalScore"
+            class="score-circle"
+        >
+
+            0/0
+
+        </div>
+
+
+        <h4
+            id="performance"
+            class="fw-bold"
+        ></h4>
+
+
+        <p
+            id="performanceText"
+            class="text-muted"
+        ></p>
+
+
+        <button
+            class="generate-btn mt-3"
+            onclick="restartQuiz()"
+        >
+
+            <i class="bi bi-arrow-repeat"></i>
+
+            Generate Another Quiz
+
+        </button>
+
+
+        <a
+            href="/dashboard"
+            class="btn btn-outline-secondary w-100 mt-3"
+        >
+
+            Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+let quizData = [];
+
+let currentQuestion = 0;
+
+let score = 0;
+
+let selectedAnswer = null;
+
+
+
+// ======================================================
+// GENERATE QUIZ
+// ======================================================
+
+async function generateQuiz() {
+
+
+    const subject =
+        document.getElementById(
+            "subject"
+        ).value;
+
+
+    const topic =
+        document.getElementById(
+            "topic"
+        ).value.trim();
+
+
+    const difficulty =
+        document.getElementById(
+            "difficulty"
+        ).value;
+
+
+    const numQuestions =
+        parseInt(
+            document.getElementById(
+                "numQuestions"
+            ).value
+        );
+
+
+    const errorBox =
+        document.getElementById(
+            "errorBox"
+        );
+
+
+    const generateBtn =
+        document.getElementById(
+            "generateBtn"
+        );
+
+
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    errorBox.classList.add(
+        "hidden"
+    );
+
+
+    if (!subject) {
+
+        errorBox.textContent =
+            "Please select a subject.";
+
+        errorBox.classList.remove(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    if (!topic) {
+
+        errorBox.textContent =
+            "Please enter a topic.";
+
+        errorBox.classList.remove(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    generateBtn.disabled =
+        true;
+
+
+    loading.classList.remove(
+        "hidden"
+    );
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                "/quiz/generate",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        subject:
+                            subject,
+
+                        topic:
+                            topic,
+
+                        difficulty:
+                            difficulty,
+
+                        num_questions:
+                            numQuestions
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Quiz generation failed."
+            );
+
+        }
+
+
+        if (
+            !data.success ||
+            !Array.isArray(data.quiz)
+        ) {
+
+            throw new Error(
+                "Invalid quiz received."
+            );
+
+        }
+
+
+        quizData =
+            data.quiz;
+
+
+        currentQuestion = 0;
+
+        score = 0;
+
+
+        document
+            .getElementById(
+                "setupSection"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+
+        document
+            .getElementById(
+                "quizSection"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+
+        showQuestion();
+
+
+    }
+
+    catch (error) {
+
+
+        errorBox.textContent =
+            error.message;
+
+
+        errorBox.classList.remove(
+            "hidden"
+        );
+
+
+    }
+
+    finally {
+
+
+        generateBtn.disabled =
+            false;
+
+
+        loading.classList.add(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+
+// ======================================================
+// SHOW QUESTION
+// ======================================================
+
+function showQuestion() {
+
+
+    const question =
+        quizData[
+            currentQuestion
+        ];
+
+
+    selectedAnswer = null;
+
+
+    const container =
+        document.getElementById(
+            "questionsContainer"
+        );
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        `Question ${
+            currentQuestion + 1
+        } of ${
+            quizData.length
+        }`;
+
+
+    document.getElementById(
+        "scoreLive"
+    ).textContent =
+        `Score: ${score}`;
+
+
+    let html = `
+
+        <div class="question-card">
+
+            <div class="question-number">
+
+                Question ${
+                    currentQuestion + 1
+                }
+
+            </div>
+
+            <h4 class="fw-bold mb-4">
+
+                ${escapeHtml(
+                    question.question
+                )}
+
+            </h4>
+
+    `;
+
+
+    question.options.forEach(
+        function(option, index) {
+
+
+            html += `
+
+                <button
+                    class="option"
+                    onclick="selectOption(
+                        ${index},
+                        this
+                    )"
+                >
+
+                    <strong>
+                        ${
+                            String.fromCharCode(
+                                65 + index
+                            )
+                        }.
+                    </strong>
+
+                    ${escapeHtml(option)}
+
+                </button>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+        </div>
+
+    `;
+
+
+    container.innerHTML =
+        html;
+
+
+    const nextBtn =
+        document.getElementById(
+            "nextBtn"
+        );
+
+
+    if (
+        currentQuestion ===
+        quizData.length - 1
+    ) {
+
+        nextBtn.innerHTML =
+            `Finish Quiz
+             <i class="bi bi-check-lg"></i>`;
+
+    }
+
+    else {
+
+        nextBtn.innerHTML =
+            `Next Question
+             <i class="bi bi-arrow-right"></i>`;
+
+    }
+
+}
+
+
+
+// ======================================================
+// SELECT OPTION
+// ======================================================
+
+function selectOption(
+    index,
+    button
+) {
+
+
+    selectedAnswer =
+        index;
+
+
+    const options =
+        document.querySelectorAll(
+            ".option"
+        );
+
+
+    options.forEach(
+        function(option) {
+
+            option.classList.remove(
+                "selected"
+            );
+
+        }
+    );
+
+
+    button.classList.add(
+        "selected"
+    );
+
+}
+
+
+
+// ======================================================
+// NEXT QUESTION
+// ======================================================
+
+function nextQuestion() {
+
+
+    if (
+        selectedAnswer === null
+    ) {
+
+        alert(
+            "Please select an answer."
+        );
+
+        return;
+
+    }
+
+
+    const correctAnswer =
+        quizData[
+            currentQuestion
+        ].answer;
+
+
+    if (
+        selectedAnswer ===
+        correctAnswer
+    ) {
+
+        score++;
+
+    }
+
+
+    currentQuestion++;
+
+
+    if (
+        currentQuestion >=
+        quizData.length
+    ) {
+
+        showResult();
+
+        return;
+
+    }
+
+
+    showQuestion();
+
+}
+
+
+
+// ======================================================
+// RESULT
+// ======================================================
+
+function showResult() {
+
+
+    document
+        .getElementById(
+            "quizSection"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "resultSection"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        `${score}/${quizData.length}`;
+
+
+    const percentage =
+        Math.round(
+            (
+                score /
+                quizData.length
+            ) * 100
+        );
+
+
+    let title = "";
+
+    let message = "";
+
+
+    if (percentage >= 80) {
+
+        title =
+            "Excellent Performance! 🎉";
+
+        message =
+            "Great job! You have a strong understanding of this topic.";
+
+    }
+
+    else if (
+        percentage >= 60
+    ) {
+
+        title =
+            "Good Performance! 👍";
+
+        message =
+            "You are doing well. Review the incorrect answers and keep practicing.";
+
+    }
+
+    else {
+
+        title =
+            "Keep Practicing! 💪";
+
+        message =
+            "Don't worry. Review the topic and try the quiz again.";
+
+    }
+
+
+    document.getElementById(
+        "performance"
+    ).textContent =
+        title;
+
+
+    document.getElementById(
+        "performanceText"
+    ).textContent =
+        `${percentage}% score. ${message}`;
+
+}
+
+
+
+// ======================================================
+// RESTART
+// ======================================================
+
+function restartQuiz() {
+
+
+    quizData = [];
+
+    currentQuestion = 0;
+
+    score = 0;
+
+
+    document
+        .getElementById(
+            "resultSection"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "quizSection"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "setupSection"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+}
+
+
+
+// ======================================================
+// HTML ESCAPE
+// ======================================================
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+</script>
+
+
+</body>
+
+</html>

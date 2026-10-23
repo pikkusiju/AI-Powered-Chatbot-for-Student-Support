@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Faculty Command Center | AI Student Support</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+ --ink:#111827;--muted:#667085;--line:#e8eaf0;--bg:#f7f8fc;
+ --purple:#635bff;--purple2:#8b7cff;--dark:#15142a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",Arial,sans-serif}
+.side{position:fixed;inset:0 auto 0 0;width:248px;background:var(--dark);color:#fff;padding:22px 15px;z-index:10;overflow:auto}
+.brand{display:flex;align-items:center;gap:11px;padding:5px 9px 35px;font-family:"Space Grotesk";font-weight:700;font-size:16px}
+.mark{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,#fff,#dcd9ff);color:#26234b;display:grid;place-items:center;font-size:12px;box-shadow:0 7px 20px #0003}
+.label{font-size:9px;letter-spacing:1.5px;color:#77758c;text-transform:uppercase;font-weight:700;padding:0 12px 11px}
+.nav a{display:flex;align-items:center;gap:12px;text-decoration:none;color:#a9a7b9;padding:12px 13px;border-radius:11px;font-size:11px;font-weight:600;margin:3px 0;transition:.2s}
+.nav a:hover{background:#26243d;color:#fff}.nav a.active{background:linear-gradient(90deg,#635bff,#7169ff);color:#fff;box-shadow:0 8px 20px #635bff30}
+.nav .symbol{width:19px;text-align:center;font-size:14px}.logout{position:absolute;bottom:20px;left:15px;right:15px}
+.main{margin-left:248px;padding:28px 38px 45px;max-width:1600px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.eyebrow{font-size:9px;text-transform:uppercase;letter-spacing:1.7px;color:#8b7cff;font-weight:700;margin-bottom:7px}
+h1{font-family:"Space Grotesk";font-size:29px;letter-spacing:-1.2px;margin:0 0 5px}.sub{font-size:11px;color:var(--muted);margin:0}
+.profile{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);padding:7px 12px 7px 7px;border-radius:14px;box-shadow:0 5px 18px #10182808}
+.avatar{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#eceaff,#dcd9ff);display:grid;place-items:center;color:#413b91;font-weight:800;font-size:12px}.profile small{display:block;color:#98a2b3;font-size:8px}.profile b{font-size:11px}
+
+.hero{position:relative;overflow:hidden;background:linear-gradient(110deg,#19172f,#292653 58%,#635bff);border-radius:22px;color:#fff;padding:27px 29px;margin-bottom:20px;box-shadow:0 15px 35px #3c347d20}
+.hero:after{content:"";position:absolute;width:280px;height:280px;border:55px solid #ffffff0c;border-radius:50%;right:-65px;top:-110px}
+.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start}
+.hero h2{font-family:"Space Grotesk";font-size:21px;margin:0 0 7px}.hero p{font-size:10px;color:#c9c6dc;margin:0;max-width:600px;line-height:1.6}
+.live{font-size:8px;border:1px solid #ffffff25;background:#ffffff0c;padding:7px 10px;border-radius:99px}.live i{display:inline-block;width:6px;height:6px;background:#72e6ad;border-radius:50%;margin-right:5px}
+.ai-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:19px}
+.ai-card{min-height:92px;padding:13px;border:1px solid #ffffff17;background:#ffffff0b;border-radius:13px;text-decoration:none;color:#fff;transition:.2s;position:relative;overflow:hidden}
+.ai-card:hover{background:#ffffff17;transform:translateY(-3px);border-color:#ffffff30}.ai-icon{font-size:18px;margin-bottom:13px}.ai-card b{display:block;font-size:10px;margin-bottom:4px}.ai-card span{font-size:8px;color:#bcb9d0;line-height:1.4}.arrow{position:absolute;right:11px;top:11px;color:#8f89ff;font-size:11px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:20px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px 18px;box-shadow:0 5px 20px #10182807;position:relative;overflow:hidden}
+.stat:after{content:"";position:absolute;width:80px;height:80px;border-radius:50%;right:-35px;bottom:-42px;background:#f0eeff}
+.stathead{display:flex;justify-content:space-between;align-items:center;color:#667085;font-size:10px;font-weight:600}.stat-icon{width:32px;height:32px;border-radius:10px;background:#f1efff;color:#635bff;display:grid;place-items:center;font-size:13px}
+.num{font-family:"Space Grotesk";font-size:28px;font-weight:700;margin-top:13px}.trend{font-size:8px;color:#12b76a;margin-top:3px}
+
+.content{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:21px;box-shadow:0 5px 20px #10182807}
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.panel h3{font-family:"Space Grotesk";font-size:13px;margin:0}.muted{font-size:8px;color:#98a2b3}
+.resource{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f1f2f5}.resource:last-child{border:0}
+.file{width:37px;height:37px;border-radius:10px;background:#f5f3ff;color:#635bff;display:grid;place-items:center;font-size:13px}.info{flex:1;min-width:0}.title{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:8px;color:#98a2b3;margin-top:4px}.pill{font-size:8px;background:#ecfdf3;color:#027a48;padding:6px 8px;border-radius:99px;font-weight:700}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.action{padding:14px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);transition:.2s;background:#fff}.action:hover{border-color:#c9c5ff;background:#faf9ff;transform:translateY(-2px)}.action-icon{width:29px;height:29px;border-radius:9px;background:#f1efff;color:#635bff;display:grid;place-items:center;margin-bottom:10px;font-size:12px}.action b{display:block;font-size:10px}.action span{display:block;color:#98a2b3;font-size:8px;line-height:1.45;margin-top:4px}
+.footer-note{margin-top:12px;padding:13px;border-radius:11px;background:#fafafa;border:1px dashed #dfe1e7;font-size:8px;color:#667085;line-height:1.55}
+@media(max-width:1150px){.ai-grid{grid-template-columns:repeat(3,1fr)}.content{grid-template-columns:1fr}}
+@media(max-width:800px){.side{width:68px}.brand span,.label,.nav a span{display:none}.brand{justify-content:center}.nav a{justify-content:center}.logout{left:8px;right:8px}.main{margin-left:68px;padding:22px 14px}.stats{grid-template-columns:1fr 1fr}.ai-grid{grid-template-columns:1fr 1fr}.hero-top{gap:15px}.profile div:last-child{display:none}}
+</style>
+</head>
+<body>
+<aside class="side">
+<div class="brand"><div class="mark">AI</div><span>Student Support</span></div>
+<div class="label">Faculty Workspace</div>
+<nav class="nav">
+<a class="active" href="{{ url_for('faculty_dashboard') }}"><i class="symbol">⌂</i><span>Dashboard</span></a>
+<a href="{{ url_for('faculty_ai') }}"><i class="symbol">✦</i><span>AI Assistant</span></a>
+<a href="{{ url_for('faculty_upload_notes') }}"><i class="symbol">▤</i><span>Notes</span></a>
+<a href="{{ url_for('faculty_create_assignment') }}"><i class="symbol">▣</i><span>Assignments</span></a>
+<a href="{{ url_for('faculty_submissions') }}"><i class="symbol">◉</i><span>Students</span></a>
+</nav>
+<div class="logout nav"><a href="{{ url_for('faculty_logout') }}"><i class="symbol">↪</i><span>Logout</span></a></div>
+</aside>
+
+<main class="main">
+<header class="top">
+<div><div class="eyebrow">Faculty Command Center</div><h1>Good morning, {{ session.get('faculty_name','Faculty') }}.</h1><p class="sub">Everything you need to create, manage and support learning — in one place.</p></div>
+<div class="profile"><div class="avatar">{{ session.get('faculty_name','F')[:1]|upper }}</div><div><small>Signed in as</small><b>{{ session.get('faculty_name','Faculty') }}</b></div></div>
+</header>
+
+<section class="hero">
+<div class="hero-top"><div><h2>✦ Your AI Faculty Assistant</h2><p>Generate teaching material, understand academic data and communicate with students using your local AI.</p></div><div class="live"><i></i> Ollama · Llama 3.2</div></div>
+<div class="ai-grid">
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=assignment"><div class="arrow">↗</div><div class="ai-icon">✎</div><b>Assignment</b><span>Create structured assignments.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=question_paper"><div class="arrow">↗</div><div class="ai-icon">▤</div><b>Question Paper</b><span>Build exam papers by marks.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=quiz"><div class="arrow">↗</div><div class="ai-icon">◆</div><b>Quiz Generator</b><span>Generate MCQs automatically.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=notes"><div class="arrow">↗</div><div class="ai-icon">▥</div><b>Notes Generator</b><span>Create structured study notes.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=performance"><div class="arrow">↗</div><div class="ai-icon">◔</div><b>Performance</b><span>Find students needing attention.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=summarize"><div class="arrow">↗</div><div class="ai-icon">≡</div><b>Summarizer</b><span>Turn notes into revision material.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=important"><div class="arrow">↗</div><div class="ai-icon">★</div><b>Important Questions</b><span>Identify key exam topics.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=faq"><div class="arrow">↗</div><div class="ai-icon">?</div><b>Doubt / FAQ</b><span>Generate common student doubts.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=study_plan"><div class="arrow">↗</div><div class="ai-icon">◷</div><b>Study Plan</b><span>Create revision schedules.</span></a>
+<a class="ai-card" href="{{ url_for('faculty_ai') }}?tool=announcement"><div class="arrow">↗</div><div class="ai-icon">↗</div><b>Announcement</b><span>Write polished messages.</span></a>
+</div>
+</section>
+
+<section class="stats">
+<div class="stat"><div class="stathead">Official Notes <div class="stat-icon">▤</div></div><div class="num">{{ total_notes }}</div><div class="trend">● Published resources</div></div>
+<div class="stat"><div class="stathead">Assignments <div class="stat-icon">▣</div></div><div class="num">{{ total_assignments }}</div><div class="trend">● Academic activity</div></div>
+<div class="stat"><div class="stathead">Students <div class="stat-icon">◉</div></div><div class="num">{{ total_students }}</div><div class="trend">● Connected learners</div></div>
+<div class="stat"><div class="stathead">Submissions <div class="stat-icon">✓</div></div><div class="num">{{ total_submissions }}</div><div class="trend">● Student submissions</div></div>
+</section>
+
+<section class="content">
+<div class="panel"><div class="panel-head"><h3>Recently published</h3><span class="muted">OFFICIAL NOTES</span></div>
+{% if recent_notes %}
+{% for note in recent_notes %}
+<div class="resource"><div class="file">▤</div><div class="info"><div class="title">{{ note.title }}</div><div class="meta">{{ note.subject }} · {{ note.uploaded_at }}</div></div><span class="pill">Published</span></div>
+{% endfor %}
+{% else %}<div class="muted">No official notes have been uploaded yet.</div>{% endif %}
+</div>
+
+<div class="panel"><div class="panel-head"><h3>Quick management</h3><span class="muted">ACTIONS</span></div>
+<div class="actions">
+<a class="action" href="{{ url_for('faculty_ai') }}?tool=assignment"><div class="action-icon">✦</div><b>AI Assignment</b><span>Generate academic work.</span></a>
+<a class="action" href="{{ url_for('faculty_upload_notes') }}"><div class="action-icon">＋</div><b>Upload Notes</b><span>Publish official material.</span></a>
+<a class="action" href="{{ url_for('faculty_ai') }}?tool=question_paper"><div class="action-icon">▤</div><b>Question Paper</b><span>Prepare an exam paper.</span></a>
+<a class="action" href="{{ url_for('faculty_ai') }}?tool=performance"><div class="action-icon">◔</div><b>Analyze Students</b><span>Review academic patterns.</span></a>
+</div>
+<div class="footer-note"><b>AI review reminder:</b> Always review generated academic content before publishing or assigning it to students.</div>
+</div>
+</section>
+</main>
+</body>
+</html>

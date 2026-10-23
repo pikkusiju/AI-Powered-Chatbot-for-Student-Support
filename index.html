@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Student Support | Smart Academic Portal</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:#f6f7fb;
+    color:#101828;
+}
+.navbar{
+    background:#101828!important;
+    padding:16px 0;
+    box-shadow:0 4px 20px rgba(16,24,40,.12);
+}
+.brand{
+    color:#fff!important;
+    font-weight:800;
+    font-size:19px;
+    letter-spacing:-.4px;
+}
+.brand small{
+    display:block;
+    color:#98a2b3;
+    font-size:9px;
+    letter-spacing:1px;
+    margin-top:2px;
+}
+.nav-btn{
+    border:0;
+    border-radius:10px;
+    padding:9px 15px;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+}
+.student-login{background:#fff;color:#101828}
+/* Smooth Interactive Effects */
+.nav-btn,
+.hero-actions a,
+button {
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+
+.nav-btn:hover,
+.hero-actions a:hover,
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(124, 92, 255, .28);
+}
+
+.nav-btn:active,
+.hero-actions a:active,
+button:active {
+    transform: translateY(-1px);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #fbbf24;
+    outline-offset: 4px;
+    border-radius: 10px;
+}
+
+.footer-separator {
+    margin: 0 8px;
+    color: #667085;
+}
+
+
+.register{background:#f5b82e;color:#17120a}
+.faculty{background:#7c3aed;color:#fff}
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    padding:85px 0 70px;
+    background:
+      radial-gradient(circle at 85% 20%,rgba(124,58,237,.28),transparent 28%),
+      radial-gradient(circle at 15% 80%,rgba(79,70,229,.18),transparent 30%),
+      linear-gradient(120deg,#101828,#17153b 55%,#32205f);
+    color:#fff;
+}
+.hero:before{
+    content:"";
+    position:absolute;
+    width:420px;height:420px;
+    right:-180px;bottom:-220px;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+}
+.hero h1{
+    font-size:clamp(34px,5vw,62px);
+    line-height:1.15;
+    font-weight:850;
+    letter-spacing:-1px;
+    margin-bottom:22px;
+}
+.hero h1 span{
+    background:linear-gradient(90deg,#c4b5fd,#818cf8);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.hero p{
+    color:#d0d5dd;
+    font-size:17px;
+    line-height:1.8;
+    max-width:600px;
+    margin-bottom:30px;
+}
+.hero-actions{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-top:28px;
+}
+.primary-btn,.outline-btn{
+    padding:13px 19px;
+    border-radius:12px;
+    font-size:12px;
+    font-weight:800;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+}
+.primary-btn{background:#fff;color:#33205f}
+.outline-btn{border:1px solid rgba(255,255,255,.25);color:#fff;background:rgba(255,255,255,.06)}
+
+.ai-orb{
+    width:330px;height:330px;
+    margin:auto;
+    border-radius:34%;
+    background:linear-gradient(145deg,rgba(124,58,237,.35),rgba(79,70,229,.12));
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 30px 70px rgba(0,0,0,.22);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform:rotate(4deg);
+    position:relative;
+    animation:orbFloat 6s ease-in-out infinite;
+}
+.ai-orb::before,
+.ai-orb::after{
+    content:"";
+    position:absolute;
+    border:1px solid rgba(196,181,253,.35);
+    border-radius:50%;
+    pointer-events:none;
+}
+.ai-orb::before{
+    width:115%;
+    height:115%;
+    animation:orbPulse 4s ease-in-out infinite;
+}
+.ai-orb::after{
+    width:128%;
+    height:128%;
+    border-style:dashed;
+    animation:orbRotate 22s linear infinite;
+}
+.ai-inner{
+    width:230px;height:230px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.16);
+    display:grid;
+    place-items:center;
+    transform:rotate(-4deg);
+    box-shadow:inset 0 0 45px rgba(167,139,250,.12);
+}
+.ai-inner i{
+    font-size:92px;
+    color:#c4b5fd;
+    filter:drop-shadow(0 0 18px rgba(196,181,253,.45));
+    animation:robotGlow 3s ease-in-out infinite;
+}
+@keyframes orbFloat{
+    0%,100%{transform:translateY(0) rotate(4deg)}
+    50%{transform:translateY(-12px) rotate(4deg)}
+}
+@keyframes orbPulse{
+    0%,100%{transform:scale(1);opacity:.35}
+    50%{transform:scale(1.06);opacity:.8}
+}
+@keyframes orbRotate{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+}
+@keyframes robotGlow{
+    0%,100%{opacity:.75;filter:drop-shadow(0 0 12px rgba(196,181,253,.25))}
+    50%{opacity:1;filter:drop-shadow(0 0 28px rgba(196,181,253,.75))}
+}
+@media(prefers-reduced-motion:reduce){
+    .ai-orb,.ai-orb::before,.ai-orb::after,.ai-inner i{animation:none}
+}
+
+.section{padding:70px 0}
+.section-head{text-align:center;margin-bottom:35px}
+.section-head h2{font-size:29px;font-weight:850;letter-spacing:-1px}
+.section-head p{color:#667085;font-size:13px}
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+}
+.feature{
+    background:linear-gradient(180deg,#ffffff 0%,#fbfbff 100%);
+    border:1px solid #eaecf0;
+    border-radius:20px;
+    padding:26px 22px;
+    min-height:205px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 7px 25px rgba(16,24,40,.04);
+    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+.feature::after{
+    content:"";
+    position:absolute;
+    width:110px;height:110px;
+    right:-55px;top:-55px;
+    border-radius:50%;
+    background:rgba(124,92,255,.07);
+    transition:transform .3s ease;
+}
+.feature:hover{
+    transform:translateY(-7px);
+    border-color:#d8d0ff;
+    box-shadow:0 16px 35px rgba(16,24,40,.10);
+}
+.feature:hover::after{transform:scale(1.7)}
+.feature-icon{
+    width:50px;height:50px;border-radius:15px;
+    display:grid;place-items:center;
+    font-size:22px;margin-bottom:18px;
+    transition:transform .25s ease;
+}
+.feature:hover .feature-icon{transform:rotate(-6deg) scale(1.08)}
+.purple{background:#f0eaff;color:#6d28d9}
+.green{background:#e9fbf2;color:#059669}
+.orange{background:#fff5df;color:#d97706}
+.blue{background:#eaf2ff;color:#2563eb}
+.feature h4{font-size:15px;font-weight:800;margin-bottom:9px;position:relative;z-index:1}
+.feature p{font-size:12px;color:#667085;margin:0;line-height:1.65;position:relative;z-index:1}
+.feature-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:15px;
+    color:#6d28d9;
+    font-size:11px;
+    font-weight:800;
+    text-decoration:none;
+    position:relative;
+    z-index:1;
+}
+.feature-link i{transition:transform .2s ease}
+.feature:hover .feature-link i{transform:translateX(4px)}
+
+.portal{
+    background:#fff;
+    border:1px solid #eaecf0;
+    border-radius:23px;
+    padding:32px;
+    box-shadow:0 10px 35px rgba(16,24,40,.05);
+}
+.portal-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.portal-card{
+    border-radius:24px;
+    padding:30px;
+    color:#fff;
+    text-decoration:none;
+    min-height:245px;
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 12px 30px rgba(16,24,40,.16);
+    transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+}
+.portal-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 42px rgba(16,24,40,.25);
+    border-color:rgba(255,255,255,.35);
+}
+.student-card{background:linear-gradient(135deg,#17153b,#5b35a8)}
+.faculty-card{background:linear-gradient(135deg,#101828,#344054)}
+.portal-card:before{
+    content:"";
+    position:absolute;
+    width:230px;height:230px;
+    right:-90px;bottom:-130px;
+    border-radius:50%;
+    background:rgba(255,255,255,.09);
+    transition:transform .4s ease;
+    z-index:-1;
+}
+.portal-card:hover:before{transform:scale(1.35)}
+.portal-card:after{
+    content:"";
+    position:absolute;
+    width:150px;height:150px;
+    right:-65px;top:-75px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    z-index:-1;
+}
+.portal-card i{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:58px;height:58px;border-radius:18px;
+    background:rgba(255,255,255,.16);font-size:29px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.portal-card h3{font-size:23px;font-weight:800;margin:19px 0 9px;letter-spacing:-.4px}
+.portal-card p{font-size:13px;line-height:1.7;color:#e4e7ec;max-width:420px;margin-bottom:0}
+.portal-card .enter{font-size:12px;font-weight:800;display:inline-flex;gap:9px;align-items:center;margin-top:22px}
+.portal-card .enter i{width:auto;height:auto;background:transparent;box-shadow:none;font-size:15px;transition:transform .25s ease}
+.portal-card:hover .enter i{transform:translateX(5px)}
+
+.ai-strip{
+    margin-top:18px;
+    border-radius:18px;
+    padding:24px;
+    background:#f8f9fc;
+    border:1px solid #eaecf0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+.ai-strip h4{font-size:15px;font-weight:800;margin:0 0 5px}
+.ai-strip p{font-size:11px;color:#667085;margin:0}
+.ai-tag{
+    background:#ede9fe;color:#6d28d9;
+    padding:10px 14px;border-radius:11px;
+    font-size:11px;font-weight:800;white-space:nowrap;
+}
+
+footer{
+    background:#101828;
+    color:#98a2b3;
+    padding:25px 0;
+    font-size:11px;
+}
+footer strong{color:#fff}
+
+@media(max-width:992px){
+    .feature-grid{grid-template-columns:repeat(2,1fr)}
+    .ai-orb{width:270px;height:270px;margin-top:35px}
+}
+@media(max-width:700px){
+    .hero{padding:55px 0 45px;text-align:center}
+    .hero h1{font-size:36px;letter-spacing:-.5px}
+    .hero p{font-size:15px;line-height:1.7;margin-left:auto;margin-right:auto}
+    .hero-actions{justify-content:center;gap:10px}
+    .hero-actions a{width:100%;max-width:300px;justify-content:center}
+    .portal-grid{grid-template-columns:1fr}
+    .portal-card{min-height:220px;padding:25px;}
+    .portal-card h3{font-size:21px;}
+    .portal-card p{font-size:12px;}
+    .feature-grid{grid-template-columns:1fr}
+    .ai-strip{align-items:flex-start;flex-direction:column}
+    .navbar .container{gap:12px;flex-wrap:wrap}
+    .nav-actions{width:100%;flex-wrap:wrap;justify-content:center}
+    .nav-btn{flex:1 1 auto;justify-content:center;padding:10px 11px;font-size:11px}
+    .navbar .faculty{display:inline-flex}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+<div class="container">
+    <a class="navbar-brand brand" href="/">
+        🎓 AI Student Support
+        <small>SMART ACADEMIC PORTAL</small>
+    </a>
+
+    <div class="nav-actions d-flex gap-2">
+        <a href="{{ url_for('login') }}" class="nav-btn student-login">
+            <i class="bi bi-person-fill"></i> Student Login
+        </a>
+        <a href="{{ url_for('register') }}" class="nav-btn register">
+            <i class="bi bi-person-plus-fill"></i> Register
+        </a>
+        <a href="{{ url_for('faculty_login') }}" class="nav-btn faculty">
+            <i class="bi bi-mortarboard-fill"></i> Faculty Portal
+        </a>
+    </div>
+</div>
+</nav>
+
+<section class="hero">
+<div class="container">
+<div class="row align-items-center">
+    <div class="col-lg-7">
+        <div class="mb-3" style="font-size:11px;font-weight:800;color:#c4b5fd;letter-spacing:1.5px">
+            AI-POWERED ACADEMIC EXPERIENCE
+        </div>
+        <h1>Learn smarter.<br><span>Achieve more.</span></h1>
+        <p>
+            One modern platform for students and faculty to connect with
+            AI-powered academic support, official study material, assignments,
+            quizzes and performance insights.
+        </p>
+
+        <div class="hero-actions">
+            <a href="{{ url_for('login') }}" class="primary-btn">
+                <i class="bi bi-stars"></i> Start Learning
+            </a>
+            <a href="{{ url_for('faculty_login') }}" class="outline-btn">
+                <i class="bi bi-mortarboard"></i> Faculty Portal
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-5 text-center">
+        <div class="ai-orb">
+            <div class="ai-inner">
+                <i class="bi bi-robot"></i>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+    <div class="section-head">
+        <h2>Everything students need</h2>
+        <p>A unified experience designed around everyday academic needs.</p>
+    </div>
+
+    <div class="feature-grid">
+        <div class="feature">
+            <div class="feature-icon purple"><i class="bi bi-stars"></i></div>
+            <h4>AI Assistant</h4>
+            <p>Ask academic questions and get instant help from your local AI assistant.</p>
+            <span class="feature-link">Explore feature <i class="bi bi-arrow-right"></i></span>
+        </div>
+        <div class="feature">
+            <div class="feature-icon green"><i class="bi bi-journal-bookmark-fill"></i></div>
+            <h4>Official Notes</h4>
+            <p>Access faculty-published notes and study material from one place.</p>
+            <span class="feature-link">Explore feature <i class="bi bi-arrow-right"></i></span>
+        </div>
+        <div class="feature">
+            <div class="feature-icon orange"><i class="bi bi-file-earmark-check-fill"></i></div>
+            <h4>Assignments</h4>
+            <p>View assigned work, download instructions and submit your solutions.</p>
+            <span class="feature-link">Explore feature <i class="bi bi-arrow-right"></i></span>
+        </div>
+        <div class="feature">
+            <div class="feature-icon blue"><i class="bi bi-graph-up-arrow"></i></div>
+            <h4>Attendance</h4>
+            <p>Track subject-wise attendance and stay aware of your progress.</p>
+            <span class="feature-link">Explore feature <i class="bi bi-arrow-right"></i></span>
+        </div>
+    </div>
+</div>
+</section>
+
+<section class="section pt-0">
+<div class="container">
+    <div class="portal">
+        <div class="section-head mb-4">
+            <h2>Choose your portal</h2>
+            <p>Separate experiences for students and faculty, connected through one system.</p>
+        </div>
+
+        <div class="portal-grid">
+            <a href="{{ url_for('login') }}" class="portal-card student-card">
+                <i class="bi bi-mortarboard-fill"></i>
+                <h3>Student Portal</h3>
+                <p>
+                    Chat with AI, study official notes, manage assignments,
+                    practice quizzes and monitor attendance.
+                </p>
+                <span class="enter">Enter Student Portal <i class="bi bi-arrow-right"></i></span>
+            </a>
+
+            <a href="{{ url_for('faculty_login') }}" class="portal-card faculty-card">
+                <i class="bi bi-person-workspace"></i>
+                <h3>Faculty Portal</h3>
+                <p>
+                    Publish notes, manage assignments, review submissions and
+                    use AI tools for academic planning and support.
+                </p>
+                <span class="enter">Enter Faculty Portal <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+
+        <div class="ai-strip">
+            <div>
+                <h4>Powered by local AI technology</h4>
+                <p>Your project can run AI assistance locally through Ollama without depending on a cloud API.</p>
+            </div>
+            <div class="ai-tag"><i class="bi bi-cpu-fill"></i> AI-Powered</div>
+        </div>
+    </div>
+</div>
+</section>
+
+<footer>
+<div class="container text-center">
+    <strong>🎓 AI Student Support</strong>
+    <span class="footer-separator">•</span>
+    <span>Smart Academic Management System</span>
+    <span class="footer-separator">•</span>
+    <span>© 2026</span>
+</div>
+</footer>
+
+</body>
+</html>

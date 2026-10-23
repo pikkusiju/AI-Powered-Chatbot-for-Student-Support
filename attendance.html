@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Attendance</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+<div class="d-flex justify-content-between mb-4">
+
+<h2>📅 Attendance</h2>
+
+<div>
+
+<a href="/dashboard" class="btn btn-secondary">
+Dashboard
+</a>
+
+</div>
+
+</div>
+
+<table class="table table-bordered table-hover shadow bg-white">
+
+<thead class="table-info">
+
+<tr>
+
+<th>Subject</th>
+<th>Total Classes</th>
+<th>Attended</th>
+<th>Percentage</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for row in attendance %}
+
+{% set percent = (row.attended_classes / row.total_classes * 100)|round(1) %}
+
+<tr>
+
+<td>{{ row.subject }}</td>
+
+<td>{{ row.total_classes }}</td>
+
+<td>{{ row.attended_classes }}</td>
+
+<td>{{ percent }}%</td>
+
+<td>
+
+{% if percent >= 75 %}
+
+<span class="badge bg-success">
+Good
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+Low
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</body>
+</html>
